@@ -7,7 +7,14 @@
  */
 package ihm.view;
 
+import java.awt.GridLayout;
+
+import ihm.controler.Controler;
+import ihm.model.Model;
+
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /*---------------------------------------------------------------*/
 /**
@@ -16,7 +23,12 @@ import javax.swing.JPanel;
  */
 public class PanResultat extends JPanel
 {
-
+	public PanResultat(Model mdl, Controler ctrl)
+	{
+		setLayout(new GridLayout());
+		JScrollPane sc = new JScrollPane(new JList(mdl.getModelList()));
+		add(sc);
+	}
 }
 
 

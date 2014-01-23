@@ -7,6 +7,10 @@
  */
 package ihm;
 
+import ihm.view.MainFrame;
+
+import javax.swing.JFrame;
+
 /*---------------------------------------------------------------*/
 /**
  * @author vivoyer
@@ -21,7 +25,8 @@ public class Launch
 	 */
 	public static void main(String[] args)
 	{
-		// PENSER à IMPLEMENTER Auto-generated method stub
+		JFrame mainView = new MainFrame();
+		mainView.setVisible(true);
 
 	}
 

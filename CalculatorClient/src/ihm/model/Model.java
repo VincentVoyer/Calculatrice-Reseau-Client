@@ -10,6 +10,9 @@ package ihm.model;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractListModel;
+import javax.swing.ListModel;
+
 /*---------------------------------------------------------------*/
 /**
  * @author vivoyer
@@ -18,6 +21,29 @@ import java.util.Observer;
 public class Model extends Observable implements Observer
 {
 
+	private float operande1;
+	
+	private float operande2;
+	
+	private AbstractListModel<String> mdlResult;
+	
+	public Model()
+	{
+		mdlResult = new ModelResultList();
+	}
+	
+	public void modifOperande1(String op)
+	{
+		
+	}
+	
+	public void modifOperande2(String op)
+	{
+		
+	}
+	
+	
+	
 	/*---------------------------------------------------------------*/
 	/**
 	 * @param arg0
@@ -35,6 +61,15 @@ public class Model extends Observable implements Observer
 	{
 		setChanged();
 		notifyObservers();
+	}
+
+	/*---------------------------------------------------------------*/
+	/**
+	 * @return
+	 */
+	public ListModel getModelList()
+	{
+		return mdlResult;
 	}
 
 }

@@ -12,8 +12,19 @@ package ihm.Acces;
  * @author vivoyer
  *
  */
-public class AccesData
+public class AccesData implements Runnable
 {
+
+	/*---------------------------------------------------------------*/
+	/**
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run()
+	{
+		// PENSER à IMPLEMENTER Auto-generated method stub
+		
+	}
 
 }
 

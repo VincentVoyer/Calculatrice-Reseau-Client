@@ -11,12 +11,15 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import ihm.controler.Controler;
 import ihm.model.Model;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import static services.ProtocolCommandes.*;
@@ -26,8 +29,10 @@ import static services.ProtocolCommandes.*;
  * @author vivoyer
  *	
  */
-public class PanCalculator extends JPanel
+public class PanCalculator extends JPanel implements Observer
 {
+	private JLabel request;
+	
 	public PanCalculator(Model mdl, Controler ctrl)
 	{
 		setLayout(new BorderLayout());
@@ -70,8 +75,10 @@ public class PanCalculator extends JPanel
 	 */
 	private Component createPanNum(ActionListener ctrl)
 	{
+		JPanel panFull = new JPanel(new GridLayout(2,1));
 		JPanel panNum = new JPanel(new GridLayout(4,3));
 		
+		request = new JLabel();
 		
 		panNum.add(createButton("1", "1", ctrl));
 		panNum.add(createButton("2", "2", ctrl));
@@ -85,7 +92,10 @@ public class PanCalculator extends JPanel
 		panNum.add(createButton("0", "0", ctrl));
 		panNum.add(createButton(",", ",", ctrl));
 		
-		return panNum;
+		panFull.add(request);
+		panFull.add(panNum);
+		
+		return panFull;
 	}
 
 	/*---------------------------------------------------------------*/
@@ -121,6 +131,19 @@ public class PanCalculator extends JPanel
 		button.addActionListener(ctrl);
 		
 		return button;
+	}
+
+	/*---------------------------------------------------------------*/
+	/**
+	 * @param o
+	 * @param arg
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// PENSER à IMPLEMENTER Auto-generated method stub
+		
 	}
 }
 

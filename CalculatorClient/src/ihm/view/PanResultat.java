@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
  * @author vivoyer
  *
  */
-public class PanResultat extends JPanel implements Observer
+public class PanResultat extends JPanel
 {
 	public PanResultat(Model mdl, Controler ctrl)
 	{
@@ -32,18 +32,6 @@ public class PanResultat extends JPanel implements Observer
 		add(sc);
 	}
 
-	/*---------------------------------------------------------------*/
-	/**
-	 * @param o
-	 * @param arg
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	@Override
-	public void update(Observable o, Object arg)
-	{
-		// PENSER à IMPLEMENTER Auto-generated method stub
-		
-	}
 }
 
 

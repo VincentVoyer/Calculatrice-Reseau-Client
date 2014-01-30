@@ -39,6 +39,8 @@ public class PanCalculator extends JPanel implements Observer
 		
 		add(createPanButtonCal(ctrl),BorderLayout.CENTER);
 		add(createPanButtonExit(ctrl),BorderLayout.SOUTH);
+		
+		mdl.addObserver(this);
 	}
 
 	/*---------------------------------------------------------------*/
@@ -90,7 +92,7 @@ public class PanCalculator extends JPanel implements Observer
 		panNum.add(createButton("8", "8", ctrl));
 		panNum.add(createButton("9", "9", ctrl));
 		panNum.add(createButton("0", "0", ctrl));
-		panNum.add(createButton(",", ",", ctrl));
+		panNum.add(createButton(".", ".", ctrl));
 		
 		panFull.add(request);
 		panFull.add(panNum);
@@ -142,7 +144,12 @@ public class PanCalculator extends JPanel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// PENSER à IMPLEMENTER Auto-generated method stub
+		if(o instanceof Model)
+		{
+			Model m = (Model)o;
+			request.setText("");
+			request.setText(m.getRequest());
+		}
 		
 	}
 }

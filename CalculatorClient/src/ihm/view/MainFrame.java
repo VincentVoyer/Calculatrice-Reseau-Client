@@ -9,6 +9,8 @@ package ihm.view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import ihm.controler.Controler;
 import ihm.model.Model;
@@ -22,13 +24,13 @@ import javax.swing.JFrame;
  */
 public class MainFrame extends JFrame
 {
-	public MainFrame()
+	public MainFrame() throws UnknownHostException, IOException
 	{
 		super("Calculator client");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		Model mdl = new Model();
-		Controler ctrl = new Controler();
+		Controler ctrl = new Controler(mdl);
 		
 		setLayout(new BorderLayout());
 		add(new PanCalculator(mdl, ctrl),BorderLayout.CENTER);

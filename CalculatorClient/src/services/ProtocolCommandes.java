@@ -24,7 +24,8 @@ public enum ProtocolCommandes
 	QUIT("QUIT"),
 	TIM("TIM"),
 	REQ("REQ"),
-	STAT("STAT");
+	STAT("STAT"),
+	SEP(" ");
 	
 	private final String value;
 	

@@ -10,6 +10,7 @@ package ihm.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.ReverbType;
 import javax.swing.AbstractListModel;
 
 /*---------------------------------------------------------------*/
@@ -30,7 +31,7 @@ public class ModelResultList extends AbstractListModel<String>
 	
 	public void addResult(String result)
 	{
-		
+		results.add(result);
 	}
 	
 	/*---------------------------------------------------------------*/
@@ -42,8 +43,7 @@ public class ModelResultList extends AbstractListModel<String>
 	@Override
 	public String getElementAt(int arg0)
 	{
-		// PENSER à IMPLEMENTER Auto-generated method stub
-		return null;
+		return results.get(arg0);
 	}
 
 	/*---------------------------------------------------------------*/
@@ -54,8 +54,7 @@ public class ModelResultList extends AbstractListModel<String>
 	@Override
 	public int getSize()
 	{
-		// PENSER à IMPLEMENTER Auto-generated method stub
-		return 0;
+		return results.size();
 	}
 
 }

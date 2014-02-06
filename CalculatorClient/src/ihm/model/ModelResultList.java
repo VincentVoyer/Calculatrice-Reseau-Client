@@ -1,54 +1,73 @@
 /*---------------------------------------------------------------*/
-/** Fichier : ModelResultList.java
- *
+/**
+ * Fichier : ModelResultList.java
+ * 
  * créé le 23 janv. 2014 à 08:22:58
- *
+ * 
  * Auteurs : Léo Riera & Vincent Voyer
  */
 package ihm.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.sampled.ReverbType;
 import javax.swing.AbstractListModel;
 
+// TODO: Auto-generated Javadoc
 /*---------------------------------------------------------------*/
 /**
+ * The Class ModelResultList.
+ * 
  * @author vivoyer
- *
  */
 public class ModelResultList extends AbstractListModel<String>
 {
-	
-	private List<String> results;
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -4826520644062734559L;
+	/** The results. */
+	private final List<String>	results;
 
-	
+	/**
+	 * Instantiates a new model result list.
+	 */
 	public ModelResultList()
 	{
-		results = new ArrayList<String>();
+		results = new ArrayList<>();
 	}
-	
-	public void addResult(String result)
+
+	/**
+	 * Adds the result.
+	 * 
+	 * @param result
+	 *            the result
+	 */
+	public void addResult(final String result)
 	{
 		results.add(result);
+		fireContentsChanged(results, 0, getSize());
 	}
-	
+
 	/*---------------------------------------------------------------*/
 	/**
+	 * Gets the element at.
+	 * 
 	 * @param arg0
-	 * @return
+	 *            the arg0
+	 * @return the element at
 	 * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	@Override
-	public String getElementAt(int arg0)
+	public String getElementAt(final int arg0)
 	{
 		return results.get(arg0);
 	}
 
 	/*---------------------------------------------------------------*/
 	/**
-	 * @return
+	 * Gets the size.
+	 * 
+	 * @return the size
 	 * @see javax.swing.ListModel#getSize()
 	 */
 	@Override
@@ -56,10 +75,9 @@ public class ModelResultList extends AbstractListModel<String>
 	{
 		return results.size();
 	}
-
 }
-
-
 /*---------------------------------------------------------------*/
-/* Fin du fichier ModelResultList.java
-/*---------------------------------------------------------------*/
+/*
+ * Fin du fichier ModelResultList.java
+ * /*---------------------------------------------------------------
+ */

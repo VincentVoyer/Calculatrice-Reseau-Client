@@ -1,8 +1,9 @@
 /*---------------------------------------------------------------*/
-/** Fichier : Model.java
- *
+/**
+ * Fichier : Model.java
+ * 
  * créé le 23 janv. 2014 à 08:19:38
- *
+ * 
  * Auteurs : Léo Riera & Vincent Voyer
  */
 package ihm.model;
@@ -11,98 +12,161 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.AbstractListModel;
 import javax.swing.ListModel;
-
 import services.CommunicationService;
 import services.ProtocolCommandes;
 import services.RequestOperation;
-import services.RequestSender;
-import services.ResultReceiv;
 
 /*---------------------------------------------------------------*/
 /**
+ * The Class Model.
+ * 
  * @author vivoyer
- *
  */
 public class Model extends Observable implements Observer
 {
+	/** The com. */
+	private final CommunicationService	com;
+	/** The mdl result. */
+	private final ModelResultList		mdlResult;
+	/** The op1. */
+	private String						op1	= null;
+	/** The op2. */
+	private String						op2	= null;
+	/** The operande1. */
+	private float						operande1;
+	/** The operande2. */
+	private float						operande2;
+	/** The operation. */
+	private String						operation;
+	/** The req. */
+	private String						req	= null;
 
-	private float operande1;
-	
-	private float operande2;
-	
-	private String operation;
-	
-	private float resultat = 0;
-	
-	private CommunicationService com;
-	
-	private ModelResultList mdlResult;
-	
-	private String op1 = null;
-	
-	private String op2 = null;
-	
-	private String req = null;
-	
+	/**
+	 * Instantiates a new model.
+	 * 
+	 * @throws UnknownHostException
+	 *             the unknown host exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public Model() throws UnknownHostException, IOException
 	{
 		mdlResult = new ModelResultList();
 		com = new CommunicationService();
 		com.addObserver(this);
 	}
-	
-	public void modifOperande1(String op)
+
+	/*---------------------------------------------------------------*/
+	/**
+	 * Gets the model list.
+	 * 
+	 * @return the model list
+	 */
+	public ListModel<String> getModelList()
+	{
+		return mdlResult;
+	}
+
+	/**
+	 * Gets the request.
+	 * 
+	 * @return the request
+	 */
+	public String getRequest()
+	{
+		final StringBuilder sb = new StringBuilder();
+		if (op1 != null)
+		{
+			sb.append(op1).append(" ");
+			if (req != null)
+			{
+				sb.append(req).append(" ");
+				if (op2 != null)
+				{
+					sb.append(op2);
+				}
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Informer.
+	 */
+	private void informer()
+	{
+		setChanged();
+		notifyObservers();
+	}
+
+	/**
+	 * Modif operande1.
+	 * 
+	 * @param op
+	 *            the op
+	 */
+	public void modifOperande1(final String op)
 	{
 		try
 		{
-			float f = Float.parseFloat(op);
-			operande1= f;
-			op1 = op;;
+			final float f = Float.parseFloat(op);
+			operande1 = f;
+			op1 = op;
 			informer();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			
 		}
 	}
-	
-	public void modifOperande2(String op)
+
+	/**
+	 * Modif operande2.
+	 * 
+	 * @param op
+	 *            the op
+	 */
+	public void modifOperande2(final String op)
 	{
 		try
 		{
-			float f = Float.parseFloat(op);
-			operande2= f;
+			final float f = Float.parseFloat(op);
+			operande2 = f;
 			op2 = op;
 			informer();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			
 		}
 	}
-	
+
+	/**
+	 * Modif operation.
+	 * 
+	 * @param operation
+	 *            the operation
+	 */
 	public void modifOperation(String operation)
 	{
 		req = operation;
-		switch(operation)
+		switch (operation)
 		{
-		case "+":
-			operation = ProtocolCommandes.ADD.toString();
-			break;
-		case "-":
-			operation = ProtocolCommandes.MIN.toString();
-			break;
-		case "/":
-			operation = ProtocolCommandes.DIV.toString();
-			break;
-		case "*":
-			operation = ProtocolCommandes.MUL.toString();
-			break;
+			case "+":
+				operation = ProtocolCommandes.ADD.toString();
+				break;
+			case "-":
+				operation = ProtocolCommandes.MIN.toString();
+				break;
+			case "/":
+				operation = ProtocolCommandes.DIV.toString();
+				break;
+			case "*":
+				operation = ProtocolCommandes.MUL.toString();
+				break;
+			default:
+				break;
 		}
-		if(operation.equals("="))
+		if (operation.equals("="))
 		{
 			com.sendRequest(operande1, operande2, this.operation);
 			op1 = null;
@@ -110,70 +174,41 @@ public class Model extends Observable implements Observer
 			req = null;
 		}
 		else
+		{
 			this.operation = operation;
-		
+		}
 		informer();
 	}
-	
-	public String getRequest()
-	{
-		StringBuilder sb = new StringBuilder();
-		
-		if(op1 != null)
-		{
-			sb.append(op1).append(" ");
-			if(req != null)
-			{
-				sb.append(req).append(" ");
-				if(op2 != null)
-				{
-					sb.append(op2);
-				}
-			}
-		}
-		
-		return sb.toString();
-	}
-	
+
 	/*---------------------------------------------------------------*/
 	/**
+	 * Update.
+	 * 
 	 * @param arg0
+	 *            the arg0
 	 * @param arg1
+	 *            the arg1
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	@Override
-	public void update(Observable arg0, Object arg1)
+	public void update(final Observable arg0, final Object arg1)
 	{
-		if(arg0 instanceof CommunicationService)
+		if (arg0 instanceof CommunicationService)
 		{
-			if(arg1 instanceof RequestOperation)
+			if (arg1 instanceof RequestOperation)
 			{
-				RequestOperation req = (RequestOperation)arg1;
+				final RequestOperation req = (RequestOperation) arg1;
 				mdlResult.addResult(req.toString());
 			}
 		}
 		else
+		{
 			informer();
+		}
 	}
-	
-	private void informer()
-	{
-		setChanged();
-		notifyObservers();
-	}
-
-	/*---------------------------------------------------------------*/
-	/**
-	 * @return
-	 */
-	public ListModel getModelList()
-	{
-		return mdlResult;
-	}
-
 }
-
-
 /*---------------------------------------------------------------*/
-/* Fin du fichier Model.java
-/*---------------------------------------------------------------*/
+/*
+ * Fin du fichier Model.java
+ * /*---------------------------------------------------------------
+ */

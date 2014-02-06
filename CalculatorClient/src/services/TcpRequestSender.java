@@ -4,40 +4,61 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class TcpRequestSender implements RequestSender {
+/**
+ * The Class TcpRequestSender.
+ */
+public class TcpRequestSender implements RequestSender
+{
+	/** The sender soc. */
+	private final Socket	senderSoc;
 
-	private Socket senderSoc;
-	
-	public TcpRequestSender(Socket soc)
+	/**
+	 * Instantiates a new tcp request sender.
+	 * 
+	 * @param soc
+	 *            the soc
+	 */
+	public TcpRequestSender(final Socket soc)
 	{
 		senderSoc = soc;
 	}
-	
+
+	/* _________________________________________________________ */
+	/**
+	 * Send request.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param op1
+	 *            the op1
+	 * @param op2
+	 *            the op2
+	 * @param operation
+	 *            the operation
+	 * @see services.RequestSender#sendRequest(int, float, float,
+	 *      java.lang.String)
+	 */
 	@Override
-	public void sendRequest(int id,float op1, float op2, String operation) {
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(id)
-			.append(ProtocolCommandes.SEP.toString())
-			.append(operation)
-			.append(ProtocolCommandes.SEP.toString())
-			.append(ProtocolCommandes.OP1.toString())
-			.append(ProtocolCommandes.SEP.toString())
-			.append(op1)
-			.append(ProtocolCommandes.SEP.toString())
-			.append(ProtocolCommandes.OP2.toString())
-			.append(ProtocolCommandes.SEP.toString())
-			.append(op2);
-		
-		
-		try {
-			DataOutputStream outToServer = new DataOutputStream(senderSoc.getOutputStream());
+	public void sendRequest(final int id, final float op1, final float op2,
+			final String operation)
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append(id).append(ProtocolCommandes.SEP.toString())
+				.append(operation).append(ProtocolCommandes.SEP.toString())
+				.append(ProtocolCommandes.OP1.toString())
+				.append(ProtocolCommandes.SEP.toString()).append(op1)
+				.append(ProtocolCommandes.SEP.toString())
+				.append(ProtocolCommandes.OP2.toString())
+				.append(ProtocolCommandes.SEP.toString()).append(op2);
+		try
+		{
+			final DataOutputStream outToServer = new DataOutputStream(
+					senderSoc.getOutputStream());
 			outToServer.writeBytes(sb.toString() + '\n');
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (final IOException e)
+		{
 			e.printStackTrace();
-		} 
-
+		}
 	}
-
 }

@@ -30,6 +30,9 @@ public class CommunicationService extends Observable implements Observer {
 		requestOperations = new HashMap<Integer, RequestOperation>();
 		
 		receiver.addObserver(this);
+		Thread th = new Thread(receiver);
+		th.setDaemon(true);
+		th.start();
 	}
 	
 	@Override

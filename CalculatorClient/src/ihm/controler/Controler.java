@@ -12,6 +12,7 @@ import ihm.model.Model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import services.ProtocolCommandes;
 
 /*---------------------------------------------------------------*/
 /**
@@ -57,46 +58,59 @@ public class Controler implements ActionListener
 		if (arg0.getSource() instanceof JButton)
 		{
 			final JButton btn = (JButton) arg0.getSource();
-			switch (btn.getActionCommand())
+			final String actionCommand = btn.getActionCommand();
+			if (ProtocolCommandes.ADD.toString().equals(actionCommand))
 			{
-				case "ADD":
-					operation = true;
-					mdl.modifOperande1(op1.toString());
-					mdl.modifOperation("+");
-					break;
-				case "MIN":
-					operation = true;
-					mdl.modifOperande1(op1.toString());
-					mdl.modifOperation("-");
-					break;
-				case "MUL":
-					operation = true;
-					mdl.modifOperande1(op1.toString());
-					mdl.modifOperation("*");
-					break;
-				case "DIV":
-					operation = true;
-					mdl.modifOperande1(op1.toString());
-					mdl.modifOperation("-");
-					break;
-				case "RES":
-					operation = false;
+				operation = true;
+				mdl.modifOperande1(op1.toString());
+				mdl.modifOperation("+");
+			}
+			else if (ProtocolCommandes.MIN.toString().equals(actionCommand))
+			{
+				operation = true;
+				mdl.modifOperande1(op1.toString());
+				mdl.modifOperation("-");
+			}
+			else if (ProtocolCommandes.MUL.toString().equals(actionCommand))
+			{
+				operation = true;
+				mdl.modifOperande1(op1.toString());
+				mdl.modifOperation("*");
+			}
+			else if (ProtocolCommandes.DIV.toString().equals(actionCommand))
+			{
+				operation = true;
+				mdl.modifOperande1(op1.toString());
+				mdl.modifOperation("-");
+			}
+			else if (ProtocolCommandes.RES.toString().equals(actionCommand))
+			{
+				operation = false;
+				mdl.modifOperande2(op2.toString());
+				mdl.modifOperation("=");
+				op1 = new StringBuilder();
+				op2 = new StringBuilder();
+			}
+			else if (ProtocolCommandes.STAT.toString().equals(actionCommand))
+			{
+				mdl.requestStat();
+			}
+			else if (ProtocolCommandes.QUIT.toString().equals(actionCommand))
+			{
+				System.exit(0);
+			}
+			else
+			{
+				if (operation)
+				{
+					op2.append(btn.getText());
 					mdl.modifOperande2(op2.toString());
-					mdl.modifOperation("=");
-					op1 = new StringBuilder();
-					op2 = new StringBuilder();
-					break;
-				default:
-					if (operation)
-					{
-						op2.append(btn.getText());
-						mdl.modifOperande2(op2.toString());
-					}
-					else
-					{
-						op1.append(btn.getText());
-						mdl.modifOperande1(op1.toString());
-					}
+				}
+				else
+				{
+					op1.append(btn.getText());
+					mdl.modifOperande1(op1.toString());
+				}
 			}
 		}
 	}

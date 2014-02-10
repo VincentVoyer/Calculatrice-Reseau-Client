@@ -8,17 +8,15 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CommunicationService.
  */
-public class CommunicationService extends Observable implements Observer,
-		AutoCloseable
+public class CommunicationService extends Observable implements Observer
 {
 	/** The nb request. */
 	private int										nbRequest	= 0;
 	/** The port. */
-	private final int								port		= 5042;
+	private int										port		= 5042;
 	/** The receiver. */
 	private final ResultReceiv						receiver;
 	/** The request. */
@@ -31,13 +29,17 @@ public class CommunicationService extends Observable implements Observer,
 	/**
 	 * Instantiates a new communication service.
 	 * 
+	 * @param port
+	 *            the port
 	 * @throws UnknownHostException
 	 *             the unknown host exception
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public CommunicationService() throws UnknownHostException, IOException
+	public CommunicationService(final int port) throws UnknownHostException,
+			IOException
 	{
+		this.port = port;
 		soc = new Socket("localhost", port);
 		request = new TcpRequestSender(soc);
 		receiver = new TcpResultReceiv(soc);
@@ -83,39 +85,65 @@ public class CommunicationService extends Observable implements Observer,
 	/**
 	 * Update.
 	 * 
-	 * @param arg0
+	 * @param observable
 	 *            the arg0
-	 * @param arg1
+	 * @param object
 	 *            the arg1
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	@Override
-	public void update(final Observable arg0,
-			@SuppressWarnings("unused") final Object arg1)
+	public void update(final Observable observable, final Object object)
 	{
-		if (arg0 instanceof ResultReceiv)
+		if (observable instanceof ResultReceiv)
 		{
-			final RequestOperation req = requestOperations.get(receiver
-					.getIdRequest());
-			if (req != null)
+			if (object == null)
 			{
-				req.addResultat(receiver.getResulat());
-				informer(req);
+				final RequestOperation req = requestOperations.get(receiver
+						.getIdRequest());
+				if (req != null)
+				{
+					req.addResultat(receiver.getResulat());
+					informer(req);
+				}
+			}
+			else if (object instanceof String)
+			{
+				informer(object);
 			}
 		}
 	}
 
+	/*
+	 * _________________________________________________________
+	 */
+	/**
+	 * Send request stat.
+	 */
+	public void sendRequestStat()
+	{
+		request.sendRequestStat();
+	}
+
 	/* _________________________________________________________ */
 	/**
-	 * Close.
+	 * Retourne la valeur du champ port.
 	 * 
-	 * @throws Exception
-	 *             the exception
-	 * @see java.lang.AutoCloseable#close()
+	 * @return la valeur du champ port.
 	 */
-	@Override
-	public void close() throws Exception
+	public int getPort()
 	{
-		soc.close();
+		return port;
+	}
+
+	/* _________________________________________________________ */
+	/**
+	 * Modifie la valeur du cmap port.
+	 * 
+	 * @param port
+	 *            la valeur à placer dans le champ port.
+	 */
+	public void setPort(final int port)
+	{
+		this.port = port;
 	}
 }

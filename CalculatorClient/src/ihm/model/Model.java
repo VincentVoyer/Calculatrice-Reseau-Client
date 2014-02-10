@@ -8,8 +8,6 @@
  */
 package ihm.model;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ListModel;
@@ -45,16 +43,14 @@ public class Model extends Observable implements Observer
 	/**
 	 * Instantiates a new model.
 	 * 
-	 * @throws UnknownHostException
-	 *             the unknown host exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param communicationService
+	 *            the com
 	 */
-	public Model() throws UnknownHostException, IOException
+	public Model(final CommunicationService communicationService)
 	{
 		mdlResult = new ModelResultList();
-		com = new CommunicationService();
-		com.addObserver(this);
+		this.com = communicationService;
+		communicationService.addObserver(this);
 	}
 
 	/*---------------------------------------------------------------*/
@@ -200,11 +196,24 @@ public class Model extends Observable implements Observer
 				final RequestOperation req = (RequestOperation) arg1;
 				mdlResult.addResult(req.toString());
 			}
+			else if (arg1 instanceof String)
+			{
+				mdlResult.addResult(arg1.toString());
+			}
 		}
 		else
 		{
 			informer();
 		}
+	}
+
+	/* _________________________________________________________ */
+	/**
+	 * Request stat.
+	 */
+	public void requestStat()
+	{
+		com.sendRequestStat();
 	}
 }
 /*---------------------------------------------------------------*/

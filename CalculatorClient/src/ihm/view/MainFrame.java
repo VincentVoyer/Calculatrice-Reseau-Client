@@ -11,8 +11,6 @@ package ihm.view;
 import ihm.controler.Controler;
 import ihm.model.Model;
 import java.awt.BorderLayout;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import javax.swing.JFrame;
 
 /*---------------------------------------------------------------*/
@@ -31,20 +29,17 @@ public class MainFrame extends JFrame
 	/**
 	 * Instantiates a new main frame.
 	 * 
-	 * @throws UnknownHostException
-	 *             the unknown host exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param model
+	 *            the model
 	 */
-	public MainFrame() throws UnknownHostException, IOException
+	public MainFrame(final Model model)
 	{
 		super("Calculator client");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		final Model mdl = new Model();
-		final Controler ctrl = new Controler(mdl);
+		final Controler ctrl = new Controler(model);
 		setLayout(new BorderLayout());
-		add(new PanCalculator(mdl, ctrl), BorderLayout.CENTER);
-		add(new PanResultat(mdl, ctrl), BorderLayout.EAST);
+		add(new PanCalculator(model, ctrl), BorderLayout.CENTER);
+		add(new PanResultat(model, ctrl), BorderLayout.EAST);
 		setSize(700, 500);
 	}
 }

@@ -25,4 +25,10 @@ public interface RequestSender
 	 *            the operation
 	 */
 	public void sendRequest(int id, float op1, float op2, String operation);
+
+	/* _________________________________________________________ */
+	/**
+	 * Send request stat.
+	 */
+	public void sendRequestStat();
 }

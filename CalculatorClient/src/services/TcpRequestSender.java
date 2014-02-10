@@ -50,15 +50,38 @@ public class TcpRequestSender implements RequestSender
 				.append(ProtocolCommandes.SEP.toString())
 				.append(ProtocolCommandes.OP2.toString())
 				.append(ProtocolCommandes.SEP.toString()).append(op2);
+		send(sb.toString() + '\n');
+	}
+
+	/**
+	 * Send.
+	 * 
+	 * @param string
+	 *            the string
+	 */
+	private void send(final String string)
+	{
 		try
 		{
 			final DataOutputStream outToServer = new DataOutputStream(
 					senderSoc.getOutputStream());
-			outToServer.writeBytes(sb.toString() + '\n');
+			outToServer.writeBytes(string);
 		}
 		catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
+	}
+
+	/* _________________________________________________________ */
+	/**
+	 * Send request stat.
+	 * 
+	 * @see services.RequestSender#sendRequestStat()
+	 */
+	@Override
+	public void sendRequestStat()
+	{
+		send(ProtocolCommandes.STAT.toString() + '\n');
 	}
 }

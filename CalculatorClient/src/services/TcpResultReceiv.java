@@ -59,6 +59,16 @@ public class TcpResultReceiv extends ResultReceiv
 				result = Float.parseFloat(args[2]);
 				informer();
 			}
+			else if (args[0].equals(ProtocolCommandes.STAT.toString()))
+			{
+				final StringBuilder stringBuilder = new StringBuilder();
+				for (int i = 1; i < args.length; i++)
+				{
+					final String string = args[i];
+					stringBuilder.append(string);
+				}
+				informer(stringBuilder.toString());
+			}
 		}
 		catch (final Exception e)
 		{

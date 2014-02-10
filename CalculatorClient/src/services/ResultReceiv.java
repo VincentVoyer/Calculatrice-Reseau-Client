@@ -58,8 +58,19 @@ public abstract class ResultReceiv extends Observable implements Runnable
 	 */
 	protected void informer()
 	{
+		informer(null);
+	}
+
+	/**
+	 * Informer.
+	 * 
+	 * @param object
+	 *            the object
+	 */
+	protected void informer(final Object object)
+	{
 		setChanged();
-		notifyObservers();
+		notifyObservers(object);
 	}
 
 	/**

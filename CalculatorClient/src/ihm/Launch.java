@@ -8,9 +8,11 @@
  */
 package ihm;
 
+import ihm.model.Model;
 import ihm.view.MainFrame;
 import java.io.IOException;
 import javax.swing.JFrame;
+import services.CommunicationService;
 
 /*---------------------------------------------------------------*/
 /**
@@ -30,15 +32,27 @@ public class Launch
 	public static void main(final String[] args)
 	{
 		JFrame mainView;
+		CommunicationService communicationService = null;
 		try
 		{
-			mainView = new MainFrame();
-			mainView.setVisible(true);
+			if (args.length > 0)
+			{
+				communicationService = new CommunicationService(
+						Integer.parseInt(args[0]));
+			}
+			else
+			{
+				communicationService = new CommunicationService(5042);
+			}
 		}
 		catch (final IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
+		final Model model = new Model(communicationService);
+		mainView = new MainFrame(model);
+		mainView.setVisible(true);
 	}
 }
 /*---------------------------------------------------------------*/
